@@ -1,9 +1,9 @@
-#include <ArduinoJson.h>
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
-#include <WebSocketsClient.h>
 #include "BeamIntersectionTracker.h";
+#include <ArduinoJson.h>
+#include <WebSocketsClient.h>
 
 ESP8266WiFiMulti WiFiMulti;
 WebSocketsClient webSocket;
@@ -16,7 +16,8 @@ const char *HOST = "control.home";
 enum Actions {
     ACTION_LOGIN = 4,
     ACTION_CONTROL = 2,
-    ACTION_PING = 10
+    ACTION_PING = 10,
+    ACTION_SIGNAL = 2
 };
 
 enum Modes {
@@ -27,9 +28,16 @@ enum Modes {
 unsigned long timeout = 0;
 bool connected = false;
 
+struct State {
+    bool send = false;
+    int direction = 0;
+};
+
+State state;
+
 void callback(int direction) {
-  Serial.print("Direction=");
-  Serial.println(direction);
+    state.send = true;
+    state.direction = direction;
 }
 
 BeamIntersectionTracker tracker(callback);
@@ -79,6 +87,7 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length)
             JsonObject& root = jsonBuffer.createObject();
             root["action"] = (int) ACTION_LOGIN;
             root["module"] = MODULE;
+            root["mac"] = WiFi.macAddress();
 
             String message;
             root.printTo(message);
@@ -86,7 +95,7 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length)
             webSocket.sendTXT(message);
         } break;
 
-        case WStype_TEXT:
+        case WStype_TEXT: {
             USE_SERIAL.printf("[WSc] get text: %s\n", payload);
 
             DynamicJsonBuffer  jsonBuffer;
@@ -96,12 +105,14 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length)
                control(root);
             }
 
-            break;
+        } break;
+
+        default: break;
     }
 
 }
 
-int left = 4, right = 5;
+int left = 5, right = 4;
 int previousLeftValue, previousRightValue = LOW;
 
 void changedLeft() {
@@ -141,6 +152,9 @@ void setup() {
         delay(100);
     }
 
+    Serial.print("MAC address=");
+    Serial.println(WiFi.macAddress());
+
     webSocket.begin(HOST, 8000);
     webSocket.onEvent(webSocketEvent);
 
@@ -153,11 +167,32 @@ void setup() {
 
 void loop()
 {
-    if (connected && millis() - timeout > 30000) {
+    webSocket.loop();
+    tracker.loop();
+
+    if (connected && millis() - timeout > 10000) {
         ping();
         timeout = millis();
     }
 
-    webSocket.loop();
-    tracker.loop();
+    if (state.send) {
+
+        state.send = false;
+
+        DynamicJsonBuffer json;
+        JsonObject& root = json.createObject();
+        root["action"] = (int) ACTION_SIGNAL;
+        root["resource"] = "sensor";
+        //root["class"] = "transition";
+        //root["id"] = 1;
+        root["value"] = state.direction;
+
+        String message;
+        root.printTo(message);
+
+        webSocket.sendTXT(message);
+        Serial.println(message);
+
+        state.direction = 0;
+    }
 }
