@@ -4,7 +4,7 @@ project(esp-visit-tracker)
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
-        esp-visit-tracker.cpp)
+        esp-visit-tracker.cpp src/Module.cpp src/Module.h src/Transport.cpp src/Transport.h src/Debug.cpp src/Debug.h)
 
 include_directories(
         /usr/local/lib/esp8266/cores/esp8266

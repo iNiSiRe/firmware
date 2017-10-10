@@ -6,7 +6,8 @@ LIBS = libraries/BeamIntersectionTracker \
   /usr/local/lib/esp8266/libraries/ESP8266WiFi/src \
   /usr/local/lib/esp8266/libraries/Hash/src
 
-UPLOAD_PORT = /dev/ttyUSB1
+UPLOAD_PORT = /dev/ttyUSB0
+UPLOAD_SPEED = 921600
 
 ESP_ROOT=/usr/local/lib/esp8266
 
