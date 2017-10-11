@@ -1,3 +1,5 @@
+#include <functional>
+
 class BeamIntersectionTracker
 {
 private:
@@ -24,15 +26,9 @@ private:
     State state = BEGIN;
     Direction direction = NONE;
 
-    void (*callback)(int);
-
 public:
     bool debug = false;
-
-    BeamIntersectionTracker(void (*callback)(int))
-    {
-        this->callback = callback;
-    }
+    std::function<void(int)> callback;
 
     void loop()
     {

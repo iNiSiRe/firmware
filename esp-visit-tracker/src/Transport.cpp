@@ -3,9 +3,9 @@
 #include "Module.h"
 #include "Debug.h"
 
-void Transport::connect(String &host, uint16_t &port)
+void Transport::connect(const String host, const uint16_t port)
 {
-    client.begin(host, 8000);
+    client.begin(host, port);
     client.onEvent(std::bind(&Transport::handle, &this));
 }
 
@@ -44,4 +44,9 @@ void Transport::send(const String data)
     if (connected) {
         client.sendTXT(data.c_str());
     }
+}
+
+void Transport::loop()
+{
+    client.loop();
 }
