@@ -3,6 +3,7 @@
 
 #include <WString.h>
 #include "Transport.h"
+#include <ArduinoJson.h>
 
 enum DebugMode {
     DEBUG_MODE_SERIAL = 1,

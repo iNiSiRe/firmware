@@ -24,8 +24,6 @@ public:
     std::list<Unit*> units;
 
     void login();
-    void requestConfig();
-    void requestUnits();
     void start();
     void loop();
 };
