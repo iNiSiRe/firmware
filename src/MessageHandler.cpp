@@ -9,26 +9,17 @@ void MessageHandler::handle(const String string)
     DynamicJsonBuffer jsonBuffer;
     JsonObject& root = jsonBuffer.parseObject(string);
 
-    if (!(root["type"] == "response" && root["status"] == 200)) {
-        return;
-    }
-
     if (root["action"] == "/api/v1/login") {
-        module.state = MODULE_STATE_AUTHENTICATED;
-        module.requestConfig();
-    }
 
-    if (root["action"] == "/api/v1/module/self/config") {
+        module.state = MODULE_STATE_AUTHENTICATED;
+
+    } else if (root["action"] == "/api/v1/module/self/config") {
 
         module.config.debug = root["data"]["config"]["debug"];
-
         debug.enabled = module.config.debug;
         debug.mode = DEBUG_MODE_TRANSPORT;
 
-        module.requestUnits();
-    }
-
-    if (root["action"] == "/api/v1/module/self/units") {
+    } else if (root["action"] == "/api/v1/module/self/units") {
 
         for (int i = 0; i < root["data"].measureLength(); i++) {
 
@@ -48,6 +39,7 @@ void MessageHandler::handle(const String string)
             unit->setVariables(root["data"][i]["variables"]);
 
             module.units.push_back(unit);
+
         }
     }
 }

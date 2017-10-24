@@ -52,6 +52,7 @@ void setup() {
 void loop()
 {
     transport.loop();
+    module.loop();
 
     if (connected && millis() - timeout > 10000) {
         ping();
