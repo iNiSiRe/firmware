@@ -59,3 +59,5 @@ void Module::loop()
         (*unit)->loop();
     }
 }
+
+Module module;

@@ -4,12 +4,12 @@
 
 void UpdateHandler::handle(const JsonObject data)
 {
-    String file = "http://" + module.config.server + "/uploads" + data["file"];
-    t_httpUpdate_return result = ESPhttpUpdate.update(file);
+    String file = "http://" + module.config.server + "/uploads" + data["file"].as<String>();
+    HTTPUpdateResult result = ESPhttpUpdate.update(file);
 
-    switch(result) {
+    switch (result) {
         case HTTP_UPDATE_FAILED:
-            char *string = NULL;
+            char *string;
             sprintf(string, "HTTP_UPDATE_FAILED | error (%d): %s", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
             debug.write(string);
             break;

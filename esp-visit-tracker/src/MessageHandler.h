@@ -10,7 +10,7 @@ class MessageHandler {
 
 public:
 
-    std::map<const String, std::function<void (const JsonObject)>> handlers;
+    std::map<const String, std::function<void (JsonObject&)>> handlers;
     void handle(const String string);
 
 };

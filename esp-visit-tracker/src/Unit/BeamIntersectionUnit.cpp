@@ -2,21 +2,21 @@
 #include "BeamIntersectionUnit.h"
 #include "../Transport.h"
 
-void BeamIntersectionUnit::setConfig(const JsonObject config)
+void BeamIntersectionUnit::setConfig(JsonObject &config)
 {
     leftPin = config["leftPin"];
     rightPin = config["rightPin"];
 }
 
-void BeamIntersectionUnit::setVariables(const JsonObject config)
+void BeamIntersectionUnit::setVariables(JsonObject &config)
 {
 
 }
 
 void BeamIntersectionUnit::start()
 {
-    attachInterrupt(digitalPinToInterrupt(leftPin), changedLeft, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(rightPin), changedRight, CHANGE);
+//    attachInterrupt(digitalPinToInterrupt(leftPin), std::bind(&BeamIntersectionUnit::changedLeft, this), CHANGE);
+//    attachInterrupt(digitalPinToInterrupt(rightPin), std::bind(&BeamIntersectionUnit::changedRight, this), CHANGE);
 }
 
 void BeamIntersectionUnit::changedLeft()
@@ -47,7 +47,7 @@ void BeamIntersectionUnit::intersectionCallback(int direction)
 
 BeamIntersectionUnit::BeamIntersectionUnit()
 {
-    tracker.callback = std::bind(BeamIntersectionUnit::intersectionCallback, this, std::placeholders::_1);
+    tracker.callback = std::bind(&BeamIntersectionUnit::intersectionCallback, this, std::placeholders::_1);
 }
 
 void BeamIntersectionUnit::loop()

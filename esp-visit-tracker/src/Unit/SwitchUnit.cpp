@@ -2,12 +2,12 @@
 #include "SwitchUnit.h"
 #include "../MessageHandler.h"
 
-void SwitchUnit::setConfig(const JsonObject config)
+void SwitchUnit::setConfig(JsonObject &config)
 {
     pin = config["pin"];
 }
 
-void SwitchUnit::setVariables(const JsonObject variables)
+void SwitchUnit::setVariables(JsonObject &variables)
 {
     enabled = variables["enabled"];
 }
@@ -15,13 +15,13 @@ void SwitchUnit::setVariables(const JsonObject variables)
 void SwitchUnit::start()
 {
     String method = "/api/v1/units/" + id;
-    messageHandler.handlers[method] = std::bind(SwitchUnit::handle, this, std::placeholders::_1);
+    messageHandler.handlers[method] = std::bind(&SwitchUnit::handle, this, std::placeholders::_1);
 
     pinMode((uint8_t) pin, OUTPUT);
     digitalWrite((uint8_t) pin, enabled ? HIGH : LOW);
 }
 
-void SwitchUnit::handle(const JsonObject data)
+void SwitchUnit::handle(JsonObject &data)
 {
     enabled = data["enabled"];
     digitalWrite((uint8_t) pin, enabled ? HIGH : LOW);

@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
-#include "src/Transport.h"
-#include "src/Module.h"
+#include "Transport.h"
+#include "Module.h"
 #include <ArduinoJson.h>
 
 ESP8266WiFiMulti WiFiMulti;

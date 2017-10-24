@@ -39,11 +39,12 @@ void MessageHandler::handle(const String string)
             } else if (root["data"][i]["class"] == "BeamIntersectionUnit") {
                 unit = new BeamIntersectionUnit();
             } else {
-                throw std::runtime_error("Unit class not exists");
+                continue;
+//                throw std::runtime_error("Unit class not exists");
             }
 
             unit->id = root["data"][i]["id"];
-            unit->setConfig(root["data"][i]["config"]);
+            unit->setConfig(root["data"][i]["config"].as<JsonObject>());
             unit->setVariables(root["data"][i]["variables"]);
 
             module.units.push_back(unit);

@@ -6,7 +6,7 @@
 void Transport::connect(const String host, const uint16_t port)
 {
     client.begin(host, port);
-    client.onEvent(std::bind(&Transport::handle, &this));
+    client.onEvent(std::bind(&Transport::handle, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 }
 
 void Transport::handle(WStype_t type, uint8_t *data, size_t length)
@@ -50,3 +50,5 @@ void Transport::loop()
 {
     client.loop();
 }
+
+Transport transport;

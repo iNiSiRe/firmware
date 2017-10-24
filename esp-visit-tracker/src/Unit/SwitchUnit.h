@@ -8,11 +8,11 @@ public:
     int pin;
     bool enabled;
 
-    virtual void setConfig(const JsonObject config) override;
-    virtual void setVariables(const JsonObject variables) override;
+    virtual void setConfig(JsonObject &config) override;
+    virtual void setVariables(JsonObject &variables) override;
     virtual void start() override;
 
-    void handle(const JsonObject data);
+    void handle(JsonObject &data);
 };
 
 

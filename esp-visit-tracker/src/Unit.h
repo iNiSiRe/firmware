@@ -7,8 +7,8 @@ class Unit {
 public:
     int id;
 
-    virtual void setConfig(const JsonObject config) = 0;
-    virtual void setVariables(const JsonObject config) = 0;
+    virtual void setConfig(JsonObject &config) = 0;
+    virtual void setVariables(JsonObject &config) = 0;
     virtual void start() = 0;
     virtual void loop();
 };
