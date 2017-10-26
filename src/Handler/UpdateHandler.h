@@ -5,7 +5,10 @@
 #include <ArduinoJson.h>
 
 class UpdateHandler {
-    void handle(const JsonObject data);
+
+public:
+    void handle(JsonObject &data);
+
 };
 
 

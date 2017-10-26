@@ -1,8 +1,11 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
-#include "Transport.h"
-#include "Module.h"
+#include "src/Transport.h"
+#include "src/Module.h"
+#include "src/MessageHandler.h"
+#include "src/Handler/ResetHandler.h"
+#include "src/Handler/UpdateHandler.h"
 #include <ArduinoJson.h>
 
 ESP8266WiFiMulti WiFiMulti;
@@ -23,6 +26,9 @@ void ping()
 
     transport.send(message);
 }
+
+ResetHandler resetHandler;
+UpdateHandler updateHandler;
 
 void setup() {
   
@@ -45,6 +51,11 @@ void setup() {
     Serial.print("MAC address=");
     Serial.println(WiFi.macAddress());
 
+    // Setup handlers
+    messageHandler.handlers["/api/v1/module/reset"] = &resetHandler.handle;
+    messageHandler.handlers["/api/v1/module/update"] = &updateHandler.handle;
+
+    transport.handler = &messageHandler.handle;
     transport.connect(HOST, 8000);
     module.start();
 }
@@ -54,7 +65,7 @@ void loop()
     transport.loop();
     module.loop();
 
-    if (connected && millis() - timeout > 10000) {
+    if (transport.connected && millis() - timeout > 10000) {
         ping();
         timeout = millis();
     }

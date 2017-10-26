@@ -2,7 +2,7 @@
 #include "../Debug.h"
 #include "../Module.h"
 
-void UpdateHandler::handle(const JsonObject data)
+void UpdateHandler::handle(JsonObject &data)
 {
     String file = "http://" + module.config.server + "/uploads" + data["file"].as<String>();
     HTTPUpdateResult result = ESPhttpUpdate.update(file);
