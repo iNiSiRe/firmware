@@ -23,3 +23,5 @@ void Debug::write(const String data)
         Serial.println(data);
     }
 }
+
+Debug debug;

@@ -1,5 +1,4 @@
 vendor
 .idea
 cmake-build-debug
-libraries
 build
