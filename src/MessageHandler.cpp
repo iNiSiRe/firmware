@@ -31,7 +31,6 @@ void MessageHandler::handle(const String string)
                 unit = new BeamIntersectionUnit();
             } else {
                 continue;
-//                throw std::runtime_error("Unit class not exists");
             }
 
             unit->id = root["data"][i]["id"];
@@ -43,3 +42,5 @@ void MessageHandler::handle(const String string)
         }
     }
 }
+
+MessageHandler messageHandler;

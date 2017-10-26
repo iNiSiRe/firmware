@@ -13,7 +13,7 @@ set(SOURCE_FILES
         src/Unit.cpp src/Unit.h
         src/Unit/SwitchUnit.cpp src/Unit/SwitchUnit.h
         src/Handler/UpdateHandler.h src/Handler/UpdateHandler.cpp
-        src/Unit/BeamIntersectionUnit.cpp src/Unit/BeamIntersectionUnit.h)
+        src/Unit/BeamIntersectionUnit.cpp src/Unit/BeamIntersectionUnit.h src/Handler/ResetHandler.h)
 
 include_directories(
         libraries/BeamIntersectionTracker
