@@ -52,10 +52,10 @@ void setup() {
     Serial.println(WiFi.macAddress());
 
     // Setup handlers
-    messageHandler.handlers["/api/v1/module/reset"] = &resetHandler.handle;
-    messageHandler.handlers["/api/v1/module/update"] = &updateHandler.handle;
+    messageHandler.handlers["/api/v1/module/reset"] = std::bind(&ResetHandler::handle, resetHandler, std::placeholders::_1);
+    messageHandler.handlers["/api/v1/module/update"] = std::bind(&UpdateHandler::handle, updateHandler, std::placeholders::_1);
 
-    transport.handler = &messageHandler.handle;
+    transport.handler = std::bind(&MessageHandler::handle, messageHandler, std::placeholders::_1);
     transport.connect(HOST, 8000);
     module.start();
 }

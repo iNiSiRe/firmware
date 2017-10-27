@@ -1,9 +1,10 @@
 #ifndef ESP_VISIT_TRACKER_BEAMINTERSECTIONUNIT_H
 #define ESP_VISIT_TRACKER_BEAMINTERSECTIONUNIT_H
 
+#include <functional>
 #include <BeamIntersectionTracker.h>
 #include "../Unit.h"
-#include <functional>
+#include "../InterruptsWrapper.h"
 
 class BeamIntersectionUnit : public Unit
 {
@@ -30,6 +31,5 @@ public:
     void intersectionCallback(int direction);
     void loop();
 };
-
 
 #endif //ESP_VISIT_TRACKER_BEAMINTERSECTIONUNIT_H

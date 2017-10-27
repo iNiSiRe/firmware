@@ -15,16 +15,10 @@ void BeamIntersectionUnit::setVariables(JsonObject &config)
 
 void BeamIntersectionUnit::start()
 {
-    void (*leftCallback)(void) = [this] () {
-        this->changedLeft();
-    };
-
-    void (*rightCallback)(void) = [this] () {
-        this->changedRight();
-    };
-
-    attachInterrupt(digitalPinToInterrupt(leftPin), leftCallback, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(rightPin), rightCallback, CHANGE);
+    InterruptsWrapper::handlers.push_back(std::bind(&BeamIntersectionUnit::changedLeft, this));
+    InterruptsWrapper::handlers.push_back(std::bind(&BeamIntersectionUnit::changedRight, this));
+    attachInterrupt(digitalPinToInterrupt(leftPin), &InterruptsWrapper::entryHandler, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(rightPin), &InterruptsWrapper::entryHandler, CHANGE);
 }
 
 void BeamIntersectionUnit::changedLeft()

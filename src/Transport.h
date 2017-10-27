@@ -8,7 +8,7 @@ class Transport
 {
 public:
     bool connected = false;
-    void (*handler)(String data);
+    std::function<void (String data)> handler;
     WebSocketsClient client;
 
     void connect(const String host, const uint16_t port);

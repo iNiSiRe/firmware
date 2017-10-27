@@ -3,6 +3,8 @@ project(esp-visit-tracker)
 
 set(CMAKE_CXX_STANDARD 11)
 
+set(VENDOR_DIR /usr/local/lib/esp8266-firmware-libs)
+
 set(SOURCE_FILES
         esp-visit-tracker.cpp
         src/Module.cpp src/Module.h
@@ -13,15 +15,15 @@ set(SOURCE_FILES
         src/Unit.cpp src/Unit.h
         src/Unit/SwitchUnit.cpp src/Unit/SwitchUnit.h
         src/Handler/UpdateHandler.h src/Handler/UpdateHandler.cpp
-        src/Unit/BeamIntersectionUnit.cpp src/Unit/BeamIntersectionUnit.h src/Handler/ResetHandler.h)
+        src/Unit/BeamIntersectionUnit.cpp src/Unit/BeamIntersectionUnit.h src/Handler/ResetHandler.h src/InterruptsWrapper.h src/InterruptsWrapper.cpp)
 
 include_directories(
         libraries/BeamIntersectionTracker
-        vendor/esp8266/cores/esp8266
-        vendor/esp8266/libraries/ESP8266WiFi/src
-        vendor/esp8266/libraries/ESP8266httpUpdate/src
-        vendor/arduinoWebSockets/src
-        vendor/ArduinoJson/src
+        ${VENDOR_DIR}/esp8266/cores/esp8266
+        ${VENDOR_DIR}/esp8266/libraries/ESP8266WiFi/src
+        ${VENDOR_DIR}/esp8266/libraries/ESP8266httpUpdate/src
+        ${VENDOR_DIR}/arduinoWebSockets/src
+        ${VENDOR_DIR}/ArduinoJson/src
 )
 
 add_executable(esp-visit-tracker ${SOURCE_FILES})

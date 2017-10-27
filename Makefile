@@ -2,7 +2,8 @@ SKETCH = esp-visit-tracker.cpp
 
 VENDOR_DIR = /usr/local/lib/esp8266-firmware-libs
 
-LIBS = libraries/BeamIntersectionTracker \
+LIBS = src \
+  libraries/BeamIntersectionTracker \
   $(VENDOR_DIR)/ArduinoJson/src \
   $(VENDOR_DIR)/arduinoWebSockets/src \
   $(VENDOR_DIR)/esp8266/libraries/ESP8266WiFi/src \
